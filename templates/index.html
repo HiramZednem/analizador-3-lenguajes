@@ -21,7 +21,9 @@
                 <tr>
                     <th>Token</th>
                     <th>Línea</th>
-                    <th>Palabra reservada</th>
+                    <th>Palabra reservada (Python)</th>
+                    <th>Palabra reservada (JavaScript)</th>
+                    <th>Palabra reservada (R)</th>
                     <th>Símbolo</th>
                     <th>Paréntesis izquierdo</th>
                     <th>Paréntesis derecho</th>
@@ -37,7 +39,9 @@
                 <tr>
                     <td>{{ token.token }}</td>
                     <td>{{ token.line }}</td>
-                    <td>{{ token.reserved }}</td>
+                    <td>{{ token.python_reserved }}</td>
+                    <td>{{ token.javascript_reserved }}</td>
+                    <td>{{ token.r_reserved }}</td>
                     <td>{{ token.symbol }}</td>
                     <td>{{ token.left_paren }}</td>
                     <td>{{ token.right_paren }}</td>
@@ -51,8 +55,10 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="2">Totales:</td>
-                    <td>{{ counts.reserved_words }}</td>
+                    <td colspan="3">Totales:</td>
+                    <td>{{ counts.python_reserved_words }}</td>
+                    <td>{{ counts.javascript_reserved_words }}</td>
+                    <td>{{ counts.r_reserved_words }}</td>
                     <td>{{ counts.symbols }}</td>
                     <td>{{ counts.left_paren }}</td>
                     <td>{{ counts.right_paren }}</td>

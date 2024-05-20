@@ -3,9 +3,12 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-reserved_words = {'for', 'do', 'while', 'if', 'int', 'else', 'printf', 'end', 'read', 'programa'}
+python_reserved_words = {'for', 'while', 'if', 'else', 'print', 'def', 'import', 'from', 'return', 'and', 'or', 'not', 'class', 'try', 'except', 'finally', 'raise', 'assert', 'with', 'yield', 'lambda', 'global', 'nonlocal', 'pass', 'break', 'continue', 'in', 'is', 'del'}
+javascript_reserved_words = {'for', 'while', 'if', 'else', 'console', 'function', 'import', 'export', 'return', 'var', 'let', 'const', 'switch', 'case', 'default', 'try', 'catch', 'finally', 'throw', 'class', 'extends', 'super', 'this', 'new', 'typeof', 'delete', 'async', 'await', 'instanceof', 'void'}
+r_reserved_words = {'for', 'while', 'if', 'else', 'print', 'function', 'library', 'return', 'repeat', 'next', 'break', 'switch', 'case', 'default', 'try', 'catch', 'finally', 'stop', 'message', 'warning', 'error', 'library', 'source', 'sink', 'require', 'attach', 'detach', 'attachNamespace', 'detachNamespace'}
+
 symbols = {';', '"', '+', '=', ','}
-identifiers = {'suma', 'a', 'b', 'c', 'la', 'es'}
+identifiers = {'suma', 'a', 'b', 'c', 'la', 'es', 'hiram'}
 
 def analyze_code(code):
     lines = code.split('\n')
@@ -13,7 +16,9 @@ def analyze_code(code):
     
     # Inicializar contadores
     counts = {
-        'reserved_words': 0,
+        'python_reserved_words': 0,
+        'javascript_reserved_words': 0,
+        'r_reserved_words': 0,
         'symbols': 0,
         'identifiers': 0,
         'numbers': 0,
@@ -31,7 +36,9 @@ def analyze_code(code):
             token = {
                 'token': word,
                 'line': i,
-                'reserved': 'x' if word in reserved_words else '',
+                'python_reserved': 'x' if word in python_reserved_words else '',
+                'javascript_reserved': 'x' if word in javascript_reserved_words else '',
+                'r_reserved': 'x' if word in r_reserved_words else '',
                 'symbol': 'x' if word in symbols else '',
                 'left_paren': 'x' if word == '(' else '',
                 'right_paren': 'x' if word == ')' else '',
@@ -39,15 +46,20 @@ def analyze_code(code):
                 'right_brace': 'x' if word == '}' else '',
                 'number': 'x' if word.isdigit() else '',
                 'identifier': 'x' if word in identifiers else '',
-                'lexical_error': 'x' if not any([word in reserved_words, word in symbols,
+                'lexical_error': 'x' if not any([word in python_reserved_words, word in javascript_reserved_words,
+                                                  word in r_reserved_words, word in symbols,
                                                   word == '(', word == ')', word == '{', word == '}',
                                                   word.isdigit(), word in identifiers]) else ''  
                 # Marcar como error léxico si ninguna categoría válida se identifica
             }
 
             # Incrementar contadores
-            if token['reserved']:
-                counts['reserved_words'] += 1
+            if token['python_reserved']:
+                counts['python_reserved_words'] += 1
+            if token['javascript_reserved']:
+                counts['javascript_reserved_words'] += 1
+            if token['r_reserved']:
+                counts['r_reserved_words'] += 1
             if token['symbol']:
                 counts['symbols'] += 1
             if token['identifier']:
